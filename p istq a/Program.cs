@@ -1,146 +1,182 @@
-//game
-//genre : fighting
-//Karakter : nama, kesehatan
+//16/09/26
 
 using System;
+using System.Collections.Generic;
 
 namespace KerangkaGame
 {
     class Karakter
     {
-        public int totalsenjata, power;
+        public int totalSenjata, kekuatan;
 
-        //enkapsulasi 
+        //enskapsulasi
         public string nama { get; private set; }
         public int kesehatan { get; private set; }
         public int senjata { get; private set; }
-        public int posisiSaatIni { get; private set; }
 
-        //membuat konstruktor
-        public Karakter(string nama, int kesehatan, int senjata)
+        public int heal { get; private set; }
+        public int posisi;
+
+        public Karakter(string nama, int kesehatan, int senjata, int heal, int posisi) //Membuat constructor
         {
             this.nama = nama;
             this.kesehatan = kesehatan;
             this.senjata = senjata;
-            this.posisiSaatIni = 0; // Posisi awal otomatis mulai dari 0
+            this.heal = heal;
+            this.posisi = posisi;
         }
 
         public void Serang(Karakter target)
         {
-            Console.WriteLine("==> Mulai Serangan");
+            Console.WriteLine($"==> Mulai serangan oleh {nama}");
             target.TerimaSerangan(this.senjata);
         }
 
         public void TerimaSerangan(int jumlahSerangan)
         {
             kesehatan -= jumlahSerangan;
-            Console.WriteLine($"{nama} diserang dengan {jumlahSerangan} . Sisa Kesehatan {kesehatan}");
+            Console.WriteLine($"{nama}, Diserang dengan {jumlahSerangan}," +
+                $" Sisa kesehatan {kesehatan}");
         }
 
-        public void HealDarah(int healing)
+        public void Healing(int heal)
         {
-            kesehatan += healing;
-            Console.WriteLine($"{nama} Healing Sebanyak {healing} . Kesehatan Sekarang : {kesehatan}");
-        }
-
-        // Method Aksi untuk memproses perpindahan posisi
-        public void Aksi(int posisiBaru)
-        {
-
-            if (posisiBaru < 0)
+            kesehatan += heal;
+            if (kesehatan < 0)
             {
-                posisiBaru = 0;
+                Console.WriteLine(kesehatan += heal);
             }
-
-            int posisiAwal = this.posisiSaatIni;
-            this.posisiSaatIni = posisiBaru;
-            int jarak = (posisiBaru - posisiAwal);
-            Console.WriteLine($"{nama} berpindah dari posisi {posisiAwal} ke posisi {posisiBaru} (Berpindah {jarak} langkah).");
-        }
-
-        public void getData()
-        {
-            Console.WriteLine($"Karakter : {nama}");
-            Console.WriteLine($"Kesehatan : {kesehatan}");
-            Console.WriteLine($"senjata : {senjata}");
-            Console.WriteLine($"Posisi Sekarang : {posisiSaatIni}");
-        }
-
-        public void CekStatus()
-        {
-            if (kesehatan > 0)
+            else if (kesehatan <= 0)
             {
-                Console.WriteLine($"{nama} masih hidup | Kesehatan: {kesehatan}");
-
-                string pilihan = "";
-
-                while (pilihan != "y" && pilihan != "n")
-                {
-                    Console.Write("Apakah ingin menyelamatkan Karakter ini? (y/n): ");
-                    pilihan = Console.ReadLine()?.ToLower().Trim();
-
-                    if (pilihan != "y" && pilihan != "n")
-                    {
-                        Console.WriteLine("Input salah! Harap masukkan hanya 'y' atau 'n'.");
-                    }
-                }
-
-                if (pilihan == "y")
-                {
-                    HealDarah(20);
-                }
-                else
-                {
-                    Console.WriteLine($"{nama} tidak diselamatkan.");
-                }
+                Console.WriteLine($"{nama} telah mati");
             }
             else
             {
-                Console.WriteLine($"{nama} sudah mati!");
+
+                Console.WriteLine($"{nama} telah disembuhkan sebanyak {heal}");
             }
         }
-    }
-
-    class MainProgram
-    {
-        static void Main(string[] args)
+        public void getData()
         {
-            Karakter player1 = new Karakter("Fahri", 100, 10);
-            Karakter Musuh = new Karakter("Radit", 100, 100);
+            Console.WriteLine($"Karakter: {nama}, KesehatanMu: {kesehatan}, Senjata: {senjata}, Posisi saat ini: {posisi} ");
+        }
+        public void ubahPosisiAngka()
+        {
+            while (true)
+            {
+                Console.WriteLine("Masukkan posisi karakter: ");
+                string input = Console.ReadLine();
 
-            player1.getData();
+                if (!int.TryParse(input, out int posisiBaru))
+                {
+                    Console.WriteLine("Input harus berupa angka!");
+                    continue;
+                }
 
-            Console.WriteLine("\n--- DENGAN INTERAKSI ---");
-            Musuh.Serang(player1);
-            player1.HealDarah(10);
 
-            // Menerima input posisi dari pengguna (Kode awal kamu)
-            Console.Write("Masukkan posisi tujuan " + player1.nama + ": ");
-            int posisiTujuan = Convert.ToInt32(Console.ReadLine());
-            player1.Aksi(posisiTujuan);
+                posisi = posisiBaru;
 
-            Console.WriteLine();
-            player1.CekStatus();
-            Console.WriteLine();
-            player1.getData();
+                Console.WriteLine($"{nama} berpindah ke posisi {posisi}");
+                Console.WriteLine($"posisi saat ini: {posisi}");
+                Console.WriteLine("Tekan ESC untuk berhenti, atau Enter untuk lanjut.");
+
+                ConsoleKeyInfo tombol = Console.ReadKey(true);
+
+                if (tombol.Key == ConsoleKey.Escape)
+                {
+                    Console.WriteLine("Permainan berhenti");
+                    break;
+                }
+            }
+        }
+        public void ubahPosisiTombol()
+        {
+            Console.WriteLine("Tekan Panah Kanan untuk maju 2 posisi");
+            Console.WriteLine("Tekan Panah Kiri untuk mundur 1 posisi");
+            Console.WriteLine("Tekan ESC untuk berhenti");
+            Console.WriteLine($"Posisi awal {nama}: {posisi}");
+
             while (true)
             {
                 ConsoleKeyInfo tombol = Console.ReadKey(true);
 
                 if (tombol.Key == ConsoleKey.RightArrow)
                 {
-                    player1.Aksi(player1.posisiSaatIni + 2);
+                    posisi += 2;
+                    Console.WriteLine($"{nama} bergerak ke kanan.");
+                    Console.WriteLine($"Posisi saat ini: {posisi}");
                 }
                 else if (tombol.Key == ConsoleKey.LeftArrow)
                 {
-                    player1.Aksi(player1.posisiSaatIni - 1);
+                    posisi -= 1;
+
+                    if (posisi < 0)
+                    {
+                        Console.WriteLine("Logika game salah!");
+                        Console.WriteLine("Posisi tidak boleh kurang dari 0.");
+                        Console.WriteLine("Permainan berhenti");
+                        break;
+                    }
+
+                    Console.WriteLine($"{nama} bergerak ke kiri.");
+                    Console.WriteLine($"Posisi saat ini: {posisi}");
                 }
                 else if (tombol.Key == ConsoleKey.Escape)
                 {
-                    Console.WriteLine("\npermainan berakhir");
+                    Console.WriteLine("Permainan berhenti");
                     break;
                 }
+                else if (tombol.Key == ConsoleKey.UpArrow)
+                {
+                    posisi += 4;
+                    Console.WriteLine($"{nama} bergerak ke atas");
+                    Console.WriteLine($"Posisi saat ini {posisi}");
+                }
             }
+        }
+    }
+    class MainProgram
+    {
+        static void Main(string[] args)
+        {
+            Karakter player1 = new Karakter("Fahri", 100, 50, 20, 0); //membuat objek
+
+            Karakter musuh = new Karakter("Iblis", 100, 50, 10, 0);
+
+            Console.WriteLine("PILIH METODE GERAK");
+            Console.WriteLine("1. Perpindahan angka");
+            Console.WriteLine("2. Tombol keyboard");
+            Console.Write("Pilihanmu: ");
+
+            string pilihan = Console.ReadLine();
+
+            if (pilihan == "1")
+            {
+                player1.getData();
+                player1.ubahPosisiAngka();
+            }
+            else if (pilihan == "2")
+            {
+                player1.getData();
+                player1.ubahPosisiTombol();
+            }
+            else
+            {
+                Console.WriteLine("Pilihan tidak valid!");
+            }
+
+            player1.getData();
+            //interaksi
+            //player1.ubahPosisi();
+            //player1.getData();
+            //player1.Serang(musuh);
+            //musuh.Serang(player1);
+            //player1.TerimaSerangan(50);
+            //player1.Healing(20);
+            //player1.getData();
+
+
+
         }
     }
 }
