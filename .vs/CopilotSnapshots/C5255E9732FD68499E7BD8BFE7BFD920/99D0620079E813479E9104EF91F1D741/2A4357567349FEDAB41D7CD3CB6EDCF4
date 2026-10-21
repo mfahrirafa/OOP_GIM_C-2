@@ -1,0 +1,64 @@
+﻿using System;
+
+namespace KerangkaGame
+{
+    class Karakter
+    {
+        public string namaKarakter, namaSenjata;
+        int kesehatanKarakter;
+
+        public Karakter(string nama, string senjata, int kesehatan)
+        {
+            namaKarakter = nama;
+            namaSenjata = senjata;
+            kesehatanKarakter = kesehatan;
+        }
+
+        public void setSenjata(string Namasenjata)
+        {
+            namaSenjata = Namasenjata;
+        }
+
+        public void tampilKarakter()
+        {
+            Console.WriteLine("nama Karakter : " + namaKarakter);
+            Console.WriteLine("nama Senjata  : " + namaSenjata);
+        }
+
+        public void tampilKesehatan()
+        {
+            Console.WriteLine("kesehatan Karakter : " + kesehatanKarakter);
+        }
+    }
+
+    class KarakterDua
+    {
+        public string nama;
+
+        public void setNama(string namaBaru)
+        {
+            nama = namaBaru;
+        }
+
+        public void tampilNama()
+        {
+            Console.WriteLine(nama);
+        }
+    }
+
+    class MyGame
+    {
+        static void Main(string[] args)
+        {
+            Karakter karakter = new Karakter("Fahri", "Cerulit", 500);
+            karakter.tampilKarakter();
+
+
+            KarakterDua karakterDua2 = new KarakterDua();
+            karakterDua2.setNama("Fahri");
+            karakterDua2.tampilNama();
+
+
+        }
+    }
+}

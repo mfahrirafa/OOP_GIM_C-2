@@ -1,0 +1,7 @@
+C:\Users\ACER\source\repos\p istq a\p istq a\bin\Debug\p istq a.exe.config
+C:\Users\ACER\source\repos\p istq a\p istq a\bin\Debug\p istq a.exe
+C:\Users\ACER\source\repos\p istq a\p istq a\bin\Debug\p istq a.pdb
+C:\Users\ACER\source\repos\p istq a\p istq a\obj\Debug\p istq a.csproj.AssemblyReference.cache
+C:\Users\ACER\source\repos\p istq a\p istq a\obj\Debug\p istq a.csproj.CoreCompileInputs.cache
+C:\Users\ACER\source\repos\p istq a\p istq a\obj\Debug\p istq a.exe
+C:\Users\ACER\source\repos\p istq a\p istq a\obj\Debug\p istq a.pdb
